@@ -17,7 +17,6 @@ connection();
 
 // Routes
 app.use("/api/users", userRoutes);
-// Add a route to serve static files (photos and CVs)
 
 app.get("/", (req, res) => {
   res.send("<h1>Working Fine</h1>");
