@@ -74,6 +74,11 @@ const Form = () => {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      if (error.response && error.response.data && error.response.data.error) {
+        alert(`Error: ${error.response.data.error}`);
+      } else {
+        alert("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

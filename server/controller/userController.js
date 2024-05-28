@@ -10,6 +10,15 @@ exports.createUser = async (req, res) => {
         error: "Full Name, Phone Number, and Event Session are required",
       });
     }
+
+    // Check if the email already exists in the database
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        error: "Email already exists",
+      });
+    }
+
     const newUser = new User({ fullName, email, phone, eventSession });
     await newUser.save();
     res.status(201).json({
