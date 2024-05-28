@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Form.css";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +11,18 @@ const Form = () => {
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // URL
+  const URL = "http://localhost:8000/";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     // Perform client-side validation
     if (
       !formData.fullName ||
@@ -25,6 +31,7 @@ const Form = () => {
       !formData.eventSession
     ) {
       alert("Please fill in all fields");
+      setLoading(false);
       return;
     }
     // Perform email format validation
@@ -42,19 +49,18 @@ const Form = () => {
     }
     // If all validations pass, show confirmation popup
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/users",
-        formData
-      );
+      const response = await axios.post(`${URL}api/users`, formData);
       console.log("Backend Response:", response.data);
       setShowConfirmation(true);
     } catch (error) {
       console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div className="container shadow-lg p-3 mb-5 bg-body rounded d-flex justify flex-column justify-content-center align-items-center pb-5">
-      <h1 className="my-5">Event Registration Form</h1>
+      <h1 className="my-5 fs-1 text-white">Event Registration Form</h1>
       <form onSubmit={handleSubmit} className="border border-3">
         <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
           <label htmlFor="fullName" className="form-label fs-5 m-0">
@@ -67,6 +73,8 @@ const Form = () => {
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
+            minLength="4"
+            maxLength="20"
             required
           />
         </div>
@@ -82,6 +90,8 @@ const Form = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            minLength="7"
+            maxLength="30"
           />
         </div>
         <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
@@ -96,6 +106,8 @@ const Form = () => {
             value={formData.phone}
             onChange={handleChange}
             required
+            minLength="10"
+            maxLength="12"
           />
         </div>
         <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
@@ -120,10 +132,16 @@ const Form = () => {
           Register
         </button>
       </form>
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
       {showConfirmation && (
         <div
-          className="modal"
-          tabIndex="-1"
+          className="modal show fade"
           role="dialog"
           style={{ display: "block" }}
         >
@@ -134,7 +152,6 @@ const Form = () => {
                 <button
                   type="button"
                   className="btn-close"
-                  data-bs-dismiss="modal"
                   aria-label="Close"
                   onClick={() => setShowConfirmation(false)}
                 ></button>
@@ -159,7 +176,7 @@ const Form = () => {
           </div>
         </div>
       )}
-      {/* <div className="modal-backdrop fade show"></div> */}
+      {showConfirmation && <div className="modal-backdrop show"></div>}
     </div>
   );
 };
