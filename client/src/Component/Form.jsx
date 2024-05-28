@@ -12,6 +12,7 @@ const Form = () => {
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalData, setModalData] = useState({});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,6 +39,7 @@ const Form = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       alert("Please enter a valid email address");
+      setLoading(false);
       return;
     }
 
@@ -45,13 +47,31 @@ const Form = () => {
     const phoneRegex = /^[0-9]+$/;
     if (!phoneRegex.test(formData.phone)) {
       alert("Phone number should contain only numbers");
+      setLoading(false);
       return;
     }
+
+    // Check phone number length
+    if (formData.phone.length < 10 || formData.phone.length > 12) {
+      alert("Phone number should be between 10 and 12 digits");
+      setLoading(false);
+      return;
+    }
+
     // If all validations pass, show confirmation popup
     try {
       const response = await axios.post(`${URL}api/users`, formData);
       console.log("Backend Response:", response.data);
+
+      setModalData(formData);
       setShowConfirmation(true);
+
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        eventSession: "",
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
@@ -99,7 +119,7 @@ const Form = () => {
             Number
           </label>
           <input
-            type="Number"
+            type="text"
             className="form-control"
             id="phone"
             name="phone"
@@ -123,9 +143,9 @@ const Form = () => {
             required
           >
             <option value="">Select Event</option>
-            <option value="Session 1">Event 1</option>
-            <option value="Session 2">Event 2</option>
-            <option value="Session 3">Event 3</option>
+            <option value="Event 1">Event 1</option>
+            <option value="Event 2">Event 2</option>
+            <option value="Event 3">Event 3</option>
           </select>
         </div>
         <button type="submit" className="btn btn-primary p-2 px-4 m-3">
@@ -145,7 +165,7 @@ const Form = () => {
           role="dialog"
           style={{ display: "block" }}
         >
-          <div className="modal-dialog" role="document">
+          <div className="modal-dialog  modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Registration Confirmation</h5>
@@ -159,16 +179,16 @@ const Form = () => {
               <div className="modal-body">
                 <p>Thank you for registering!</p>
                 <p>
-                  <strong>Full Name:</strong> {formData.fullName}
+                  <strong>Full Name:</strong> {modalData.fullName}
                 </p>
                 <p>
-                  <strong>Email Address:</strong> {formData.email}
+                  <strong>Email Address:</strong> {modalData.email}
                 </p>
                 <p>
-                  <strong>Phone Number:</strong> {formData.phone}
+                  <strong>Phone Number:</strong> {modalData.phone}
                 </p>
                 <p>
-                  <strong>Event Session:</strong> {formData.eventSession}
+                  <strong>Event Session:</strong> {modalData.eventSession}
                 </p>
                 {/* You can include the registration ID here if needed */}
               </div>
