@@ -68,8 +68,8 @@ EMAIL_PASS="Your Email Passkey"
 6. **Confirmation page:** Displays the registration details and a unique registration ID.
 
 ## Live Demo
-- **Frontend:** [Netlify Deployed Site](https://your-netlify-site-url)
-- **Backend:** [Render Deployed API](https://your-render-api-url)
+- **Frontend:** [Netlify Deployed Site](https://eligere-event-registration-form.netlify.app/)
+- **Backend:** [Render Deployed API]((https://eligereassignment.onrender.com/))
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
