@@ -33,6 +33,7 @@ const Form = () => {
       alert("Please enter a valid email address");
       return;
     }
+
     // Perform phone number validation
     const phoneRegex = /^[0-9]+$/;
     if (!phoneRegex.test(formData.phone)) {
@@ -52,12 +53,12 @@ const Form = () => {
     }
   };
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Event Registration Form</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="fullName" className="form-label">
-            Full Name:
+    <div className="container shadow-lg p-3 mb-5 bg-body rounded d-flex justify flex-column justify-content-center align-items-center pb-5">
+      <h1 className="my-5">Event Registration Form</h1>
+      <form onSubmit={handleSubmit} className="border border-3">
+        <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
+          <label htmlFor="fullName" className="form-label fs-5 m-0">
+            Name
           </label>
           <input
             type="text"
@@ -69,9 +70,9 @@ const Form = () => {
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email Address:
+        <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
+          <label htmlFor="email" className="form-label fs-5 m-0">
+            Email
           </label>
           <input
             type="email"
@@ -83,12 +84,12 @@ const Form = () => {
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="phone" className="form-label">
-            Phone Number:
+        <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
+          <label htmlFor="phone" className="form-label fs-5 m-0">
+            Number
           </label>
           <input
-            type="text"
+            type="Number"
             className="form-control"
             id="phone"
             name="phone"
@@ -97,9 +98,9 @@ const Form = () => {
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="eventSession" className="form-label">
-            Event Session:
+        <div className="px-3 py-2 m-4 gap-3 d-flex flex-row border border-2 justify-content-center align-items-center">
+          <label htmlFor="eventSession" className="form-label fs-5 m-0">
+            Event
           </label>
           <select
             className="form-select"
@@ -109,13 +110,13 @@ const Form = () => {
             onChange={handleChange}
             required
           >
-            <option value="">Select Session</option>
-            <option value="Session 1">Session 1</option>
-            <option value="Session 2">Session 2</option>
-            <option value="Session 3">Session 3</option>
+            <option value="">Select Event</option>
+            <option value="Session 1">Event 1</option>
+            <option value="Session 2">Event 2</option>
+            <option value="Session 3">Event 3</option>
           </select>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary p-2 px-4 m-3">
           Register
         </button>
       </form>
