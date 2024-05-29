@@ -19,8 +19,8 @@ const Form = () => {
   };
 
   // URL
-  // const URL = "http://localhost:8000/";
-  const URL = "https://eligereassignment.onrender.com/";
+  const URL = "http://localhost:8000/"; // for localhost
+  // const URL = "https://eligereassignment.onrender.com/"; // hosted server
 
   const handleSubmit = async (e) => {
     e.preventDefault();
